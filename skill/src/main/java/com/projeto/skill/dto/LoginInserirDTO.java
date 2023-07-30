@@ -1,12 +1,22 @@
 package com.projeto.skill.dto;
 
 public class LoginInserirDTO {
+	private int id;
 	private String login;
 	private String senha;
 	private String confirmarSenha;
 	public LoginInserirDTO() {
 		
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getLogin() {
 		return login;
 	}

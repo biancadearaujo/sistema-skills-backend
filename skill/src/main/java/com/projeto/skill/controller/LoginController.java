@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.security.auth.login.LoginException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,13 @@ public class LoginController {
 		//login.setSenha(encoder.encode(login.getSenha()));
 		try {
 			if(loginService.cadastrar(loginDTO) != null) {
-				return ResponseEntity.status(HttpStatus.CREATED).body(loginService.cadastrar(loginDTO));
+				URI uri = ServletUriComponentsBuilder
+						.fromCurrentRequest()
+						.path("/{id}")
+						.buildAndExpand(loginDTO.getId())
+						.toUri();
+				
+				return ResponseEntity.created(uri).body(loginService.cadastrar(loginDTO));
 			}
 		}catch(LoginException ex) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -64,6 +71,10 @@ public class LoginController {
 	public ResponseEntity<Boolean> validarSenha(@RequestBody ValidarLoginSenhaDTO validarLoginSenhaDTO){
 		String login = validarLoginSenhaDTO.getLogin();
 		String senha = validarLoginSenhaDTO.getSenha();
+		
+		if (login == null || login.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	    }
 		
 		boolean valid = loginService.validaSenha(login, senha);
 		

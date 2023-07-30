@@ -1,5 +1,6 @@
 package com.projeto.skill.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.projeto.skill.dto.LoginDTO;
 import com.projeto.skill.dto.SkillAtualizarDTO;
@@ -45,7 +47,13 @@ public class SkillController {
 	public ResponseEntity<Skill> cadastrar(@PathVariable int loginId, @RequestBody SkillDTO skillDTO){
 		try {
 			Skill skill = skillService.cadastrar(loginId, skillDTO);
-			return ResponseEntity.status(HttpStatus.CREATED).body(skill);
+			URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(skillDTO.getId())
+					.toUri();
+			
+			return ResponseEntity.created(uri).body(skill);
 		}catch(LoginException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}catch(Exception ex) {

@@ -59,6 +59,18 @@ public class LoginService {
 			throw new LoginException("Senha e confirmação de senha não são igulais.");
 		}
 		
+		if (login == null || login.isEmpty()) {
+	        throw new LoginException("Preencha o nome de usuário.");
+	    }
+		
+		if (senha == null || senha.isEmpty()) {
+	        throw new LoginException("Preencha a senha do usuário.");
+	    }
+		
+		if (confirmarSenha == null || confirmarSenha.isEmpty()) {
+	        throw new LoginException("Preencha a confirmação da senha do usuário.");
+	    }
+		
 		Optional<Login> loginOptional = loginRepository.findByLogin(login);
 		try {
 			if(!loginOptional.isEmpty()) {

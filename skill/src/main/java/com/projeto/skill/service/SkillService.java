@@ -57,6 +57,11 @@ public class SkillService {
     		
     		Skill skill = skillOptional.get();
     		
+    		String level = skillAtualizarDTO.getLevel();
+    	    if (level == null || level.equals("")) {
+    	        throw new SkillException("O campo level não pode ser vazio");
+    	    }
+    		
     		BeanUtils.copyProperties(skillAtualizarDTO, skillOptional.get());
     		
     	

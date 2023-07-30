@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -26,10 +28,12 @@ public class Login implements Serializable{
 	@Column(name = "id_login")
 	private int idLogin;
 	
-	@Column(name = "login")
+	@NotBlank(message="Preencha o nome de usuário")
+	@Size(max=30)
+	@Column(name = "login", unique = true, nullable = true)
 	private String login;
-	
-	@Column(name = "senha")
+
+	@Column(name = "senha", nullable = true)
 	private String senha;
 
 	public int getIdLogin() {
