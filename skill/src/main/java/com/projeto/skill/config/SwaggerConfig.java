@@ -26,7 +26,7 @@ public class SwaggerConfig {
 	private ApiInfo apiInfo(){
 		ApiInfo apiInfo = new ApiInfoBuilder()
 		.title("API Sistema de Skills")
-		.description("Essa é uma API desenvolvida para tests")
+		.description("Essa é uma API desenvolvida para testes")
 		.license("Apache License Version 2.0")
 		.licenseUrl("https://www.apache.org/license/LICENSE-2.0")
 		.version("1.0.0")

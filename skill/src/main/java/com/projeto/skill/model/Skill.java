@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idSkill")
 
 @Entity
@@ -22,12 +24,15 @@ public class Skill implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_skill")
+	@ApiModelProperty(value="Identificador unico do login")
 	private int idSkill;
 	
 	@Column(name = "skill")
+	@ApiModelProperty(value="Nome da habilidade")
 	private String skill;
 	
 	@Column(name = "level")
+	@ApiModelProperty(value="Nível da habilidade")
 	private String level;
 	
 	@Column(name = "id_login")

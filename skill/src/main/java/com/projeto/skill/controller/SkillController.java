@@ -27,6 +27,9 @@ import com.projeto.skill.service.SkillService;
 
 import exception.LoginException;
 import exception.SkillException;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/skill")
@@ -38,12 +41,42 @@ public class SkillController {
         this.skillService = skillService;
     }
     
+    /**
+     * Retorna uma lista de skills associadas a um determinado ID de login.
+     * 
+     * @param id O ID do login para o qual se deseja obter as skills.
+     * @return Um objeto ResponseEntity contendo a lista de skills associadas ao ID de login especificado. Retorna status 200 (OK) se as skills forem encontradas e 404 (Not Found) caso contrário.
+     */
     @GetMapping("/{id}")
+    @ApiOperation(value="Retorna uma skill", notes="Skill")
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="Retorna uma skill"),
+			@ApiResponse(code=401, message="Erro de autenticação"),
+			@ApiResponse(code=403, message="Não há premissão para acessar o recurso"),
+			@ApiResponse(code=404, message="Recurso não encontrado"),
+			@ApiResponse(code=505, message="Exceção interna da aplicação")
+	})
     public ResponseEntity<List<Skill>> obterPorIdLogin(@PathVariable int id){
     	return ResponseEntity.status(HttpStatus.OK).body(skillService.obterPorIdLogin(id));
     }
 	
+    /**
+     * Insere os dados de uma nova skill associada a um login específico.
+     * 
+     * @param loginId O ID do login ao qual a skill será associada.
+     * @param skillDTO O objeto SkillDTO contendo os dados da skill a ser cadastrada.
+     * @return Um objeto ResponseEntity contendo a skill cadastrada e o status da resposta. Retorna status 201 (Created) se a skill for cadastrada com sucesso, 404 (Not Found) se o login não for encontrado, ou 500 (Internal Server Error) se ocorrer um erro interno na aplicação.
+     */
 	@PostMapping("/{loginId}")
+	@ApiOperation(value="Insere os dados de uma skill", notes="Inserir Skill")
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="Skill adicionada"),
+			@ApiResponse(code=401, message="Erro de autenticação"),
+			@ApiResponse(code=403, message="Não há premissão para acessar o recurso"),
+			@ApiResponse(code=404, message="Recurso não encontrado"),
+			@ApiResponse(code=505, message="Erro interno"),
+			@ApiResponse(code=505, message="Exceção interna da aplicação")
+	})
 	public ResponseEntity<Skill> cadastrar(@PathVariable int loginId, @RequestBody SkillDTO skillDTO){
 		try {
 			Skill skill = skillService.cadastrar(loginId, skillDTO);
@@ -61,7 +94,23 @@ public class SkillController {
 		}
 	}
 	
+	/**
+	 * Atualiza os dados de uma skill existente.
+	 * 
+	 * @param skillAtualizacaoDTO O objeto SkillAtualizarDTO contendo os novos dados da skill.
+	 * @param id O ID da skill a ser atualizada.
+	 * @return Um objeto ResponseEntity contendo a skill atualizada e o status da resposta. Retorna status 200 (OK) se a skill for atualizada com sucesso, 401 (Unauthorized) se o usuário não estiver autenticado, 403 (Forbidden) se o usuário não tiver permissão para acessar o recurso, 404 (Not Found) se a skill não for encontrada, ou 422 (Unprocessable Entity) se ocorrer um erro ao processar a entidade.
+	 */
 	@PutMapping("/{id}")
+	@ApiOperation(value="Atualiza os dados de uma skill", notes="Atualizar")
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="Skill Atualizada"),
+			@ApiResponse(code=401, message="Erro de autenticação"),
+			@ApiResponse(code=403, message="Não há premissão para acessar o recurso"),
+			@ApiResponse(code=404, message="Recurso não encontrado"),
+			@ApiResponse(code=422, message="Recurso não encontrado"),
+			@ApiResponse(code=505, message="Exceção interna da aplicação")
+	})
 	public ResponseEntity<Skill> atualizar(@RequestBody SkillAtualizarDTO skillAtualizacaoDTO, @PathVariable int id){
 		try {
 			if(skillService.atualizar(id, skillAtualizacaoDTO) != null) {
@@ -73,7 +122,21 @@ public class SkillController {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 	}
 	
+	/**
+	 * Remove uma skill existente.
+	 * 
+	 * @param id O ID da skill a ser removida.
+	 * @return Um objeto ResponseEntity contendo uma mensagem de confirmação da exclusão e o status da resposta. Retorna status 200 (OK) se a skill for removida com sucesso, 401 (Unauthorized) se o usuário não estiver autenticado, 403 (Forbidden) se o usuário não tiver permissão para acessar o recurso, 404 (Not Found) se a skill não for encontrada, ou 500 (Internal Server Error) se ocorrer um erro interno na aplicação.
+	 */
 	@DeleteMapping("/{id}")
+	@ApiOperation(value="Remove uma skill", notes="Remover Skill")
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="Skill Removida"),
+			@ApiResponse(code=401, message="Erro de autenticação"),
+			@ApiResponse(code=403, message="Não há premissão para acessar o recurso"),
+			@ApiResponse(code=404, message="Recurso não encontrado"),
+			@ApiResponse(code=505, message="Exceção interna da aplicação")
+	})
 	public ResponseEntity<String> deletar(@PathVariable int id){
 		try {
 			skillService.deletar(id);

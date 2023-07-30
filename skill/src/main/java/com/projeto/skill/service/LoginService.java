@@ -85,10 +85,10 @@ public class LoginService {
 		novoLogin.setLogin(login);
 		novoLogin.setSenha(encoder.encode(senha));
 		
-		//login.setSenha(encoder.encode(login.getSenha()));
 		return loginRepository.save(novoLogin);
 	}
 	
+
 	public boolean validaSenha(String login, String senha) {
 		Optional<Login> optionalLogin = loginRepository.findByLogin(login);
 		if(optionalLogin.isEmpty()) {

@@ -18,6 +18,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idLogin")
 
 @Entity
@@ -26,14 +28,17 @@ public class Login implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_login")
+	@ApiModelProperty(value="Identificador unico do cliente")
 	private int idLogin;
 	
 	@NotBlank(message="Preencha o nome de usuário")
 	@Size(max=30)
 	@Column(name = "login", unique = true, nullable = true)
+	@ApiModelProperty(value="Nome de usuário")
 	private String login;
 
 	@Column(name = "senha", nullable = true)
+	@ApiModelProperty(value="Senha do usuário")
 	private String senha;
 
 	public int getIdLogin() {

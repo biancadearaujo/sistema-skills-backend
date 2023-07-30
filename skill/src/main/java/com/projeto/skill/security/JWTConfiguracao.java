@@ -56,5 +56,4 @@ public class JWTConfiguracao extends WebSecurityConfigurerAdapter{
 		
 		return source;
 	}
-	
 }

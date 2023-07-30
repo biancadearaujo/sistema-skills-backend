@@ -22,7 +22,5 @@ public class ValidarLoginSenhaDTO {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	
-	
+	}	
 }
